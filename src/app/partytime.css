@@ -1,0 +1,309 @@
+:root {
+    --neon-color: #FD4499;
+}
+
+@keyframes neonPulse {
+    0% {
+        text-shadow: 0 0 7px #fff,
+            0 0 10px #fff,
+            0 0 21px #fff,
+            0 0 42px var(--neon-color),
+            0 0 82px var(--neon-color),
+            0 0 92px var(--neon-color),
+            0 0 102px var(--neon-color),
+            0 0 151px var(--neon-color);
+    }
+    100% {
+        text-shadow: 0 0 4px #fff,
+            0 0 7px #fff,
+            0 0 13px #fff,
+            0 0 26px var(--neon-color),
+            0 0 52px var(--neon-color),
+            0 0 62px var(--neon-color),
+            0 0 72px var(--neon-color),
+            0 0 91px var(--neon-color);
+    }
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+}
+
+.partytime-bg {
+    background: linear-gradient(-45deg, #0a0a0a, #1a0f1f, #0f1a2a, #0a1f1f);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite, glitch 2s infinite;
+    position: relative;
+    overflow: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+}
+
+.partytime-bg.static {
+    animation: none;
+    background-position: 0% 50%;
+}
+
+.video-container {
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    z-index: 0;
+    display: none;
+}
+
+.video-left {
+    left: 0;
+}
+
+.video-right {
+    right: 0;
+}
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    .video-container {
+        width: 100%;
+    }
+    
+    .video-right {
+        display: none !important;
+    }
+    
+    .partytime-bg:not(.static) .neon-border.rounded-full {
+        opacity: 0;
+        visibility: hidden;
+    }
+    
+    .partytime-content .flex.flex-col.items-center.gap-8 {
+        gap: 4rem;
+    }
+}
+
+.partytime-bg:not(.static) .video-container {
+    display: block;
+    animation: glitch 2s infinite;
+}
+
+.partytime-bg.static .video-container {
+    display: none;
+}
+
+.video-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.partytime-content {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.partytime-bg.static .partytime-content {
+    width: 100%;
+}
+
+.partytime-bg::-webkit-scrollbar {
+    display: none;
+}
+
+@keyframes glitch {
+    0% {
+        transform: translate(0);
+        filter: hue-rotate(0deg);
+    }
+    10% {
+        transform: translate(-2px, 2px);
+        filter: hue-rotate(45deg);
+    }
+    20% {
+        transform: translate(2px, -2px);
+        filter: hue-rotate(-45deg);
+    }
+    30% {
+        transform: translate(-2px, -2px);
+        filter: hue-rotate(90deg);
+    }
+    40% {
+        transform: translate(2px, 2px);
+        filter: hue-rotate(-90deg);
+    }
+    50% {
+        transform: translate(-1px, 1px);
+        filter: hue-rotate(180deg);
+    }
+    60% {
+        transform: translate(1px, -1px);
+        filter: hue-rotate(-180deg);
+    }
+    70% {
+        transform: translate(-1px, -1px);
+        filter: hue-rotate(270deg);
+    }
+    80% {
+        transform: translate(1px, 1px);
+        filter: hue-rotate(-270deg);
+    }
+    90% {
+        transform: translate(0);
+        filter: hue-rotate(360deg);
+    }
+    100% {
+        transform: translate(0);
+        filter: hue-rotate(0deg);
+    }
+}
+
+.partytime-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: 1;
+    animation: scanline 10s linear infinite;
+}
+
+.partytime-bg.static::before {
+    animation: none;
+}
+
+@keyframes scanline {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 0 100%;
+    }
+}
+
+.neon-text {
+    animation: neonPulse 1.5s ease-in-out infinite alternate;
+    color: #fff;
+}
+
+.static .neon-text {
+    animation: none;
+    text-shadow: 0 0 7px #fff,
+        0 0 10px #fff,
+        0 0 21px #fff,
+        0 0 42px var(--neon-color),
+        0 0 82px var(--neon-color),
+        0 0 92px var(--neon-color),
+        0 0 102px var(--neon-color),
+        0 0 151px var(--neon-color);
+}
+
+@keyframes borderPulse {
+    0% {
+        box-shadow: 0 0 5px var(--neon-color),
+                    0 0 10px var(--neon-color),
+                    0 0 20px var(--neon-color),
+                    0 0 40px var(--neon-color);
+    }
+    100% {
+        box-shadow: 0 0 2px var(--neon-color),
+                    0 0 5px var(--neon-color),
+                    0 0 10px var(--neon-color),
+                    0 0 20px var(--neon-color);
+    }
+}
+
+.neon-border {
+    border: 2px solid var(--neon-color);
+    animation: borderPulse 1.5s ease-in-out infinite alternate;
+}
+
+.partytime-link {
+    position: relative;
+    color: var(--neon-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.partytime-link:hover {
+    color: #fff;
+    text-shadow: 0 0 5px var(--neon-color),
+                0 0 10px var(--neon-color),
+                0 0 20px var(--neon-color);
+}
+
+.partytime-button {
+    background: transparent;
+    color: var(--neon-color);
+    border: 2px solid var(--neon-color);
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+}
+
+.partytime-button:hover {
+    background: var(--neon-color);
+    color: #000;
+    box-shadow: 0 0 5px var(--neon-color),
+                0 0 10px var(--neon-color),
+                0 0 20px var(--neon-color);
+}
+
+.partytime-subtitle {
+    color: var(--neon-color);
+    max-width: 80%;
+    margin: 0 auto;
+    padding: 0 1rem;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.grid-bg {
+    background-image: linear-gradient(rgba(0, 255, 170, 0.05) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(0, 255, 170, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    background-position: center center;
+    position: relative;
+    z-index: 2;
+}
