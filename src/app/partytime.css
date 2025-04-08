@@ -70,7 +70,6 @@ html, body {
     overflow: hidden;
     top: 0;
     z-index: 0;
-    display: none;
 }
 
 .video-left {
@@ -101,12 +100,12 @@ html, body {
     }
 }
 
-.partytime-bg:not(.static) .video-container {
+.video-container.block {
     display: block;
     animation: glitch 2s infinite;
 }
 
-.partytime-bg.static .video-container {
+.video-container.hidden {
     display: none;
 }
 
