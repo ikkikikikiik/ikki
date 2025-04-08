@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { Analytics } from "@vercel/analytics/next";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 config.autoAddCss = false;
 
@@ -19,7 +20,7 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
     title: "ikki",
-    description: "here i am",
+    description: "Java | 天天天国地獄国 Aiobahn+81 feat. ななひら & P丸様",
 };
 
 export default function RootLayout({ children }) {
@@ -37,6 +38,7 @@ export default function RootLayout({ children }) {
                     {children}
                 </ThemeProvider>
                 <Analytics />
+                <SpeedInsights />
             </body>
         </html>
     );
