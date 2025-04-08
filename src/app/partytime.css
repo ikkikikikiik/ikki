@@ -101,6 +101,23 @@ html, body {
     }
 }
 
+/* Media query for shorter viewports */
+@media (max-height: 600px) {
+    .partytime-content {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        justify-content: flex-start;
+    }
+    
+    .partytime-button {
+        margin-bottom: 1rem;
+    }
+    
+    footer.neon-text {
+        padding-bottom: 1rem;
+    }
+}
+
 .partytime-bg:not(.static) .video-container {
     display: block;
     animation: glitch 2s infinite;
@@ -129,7 +146,9 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: center; /* Center content vertically */
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .partytime-bg.static .partytime-content {
@@ -280,6 +299,7 @@ html, body {
     letter-spacing: 2px;
     position: relative;
     overflow: hidden;
+    margin-bottom: 0; /* Remove the large bottom margin */
 }
 
 .partytime-button:hover {
@@ -297,6 +317,17 @@ html, body {
     padding: 0 1rem;
     text-align: center;
     word-wrap: break-word;
+}
+
+footer.neon-text {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding-bottom: 0.5rem;
+    z-index: 10;
+    text-align: center;
+    margin-top: 0;
 }
 
 .grid-bg {
