@@ -14,35 +14,38 @@ export default function Home() {
         <main className={`partytime-bg ${isStatic ? 'static' : ''}`}>
             <div className="grid-bg absolute inset-0 opacity-30 z-1"></div>
             
-            {/* Videos are always loaded but only displayed when !isStatic */}
-            <div className={`video-container video-left ${!isStatic ? 'block' : 'hidden'}`}>
-                <video 
-                    autoPlay 
-                    loop 
-                    muted 
-                    playsInline
-                    preload="auto"
-                    loading="eager"
-                    disablePictureInPicture
-                    disableRemotePlayback
-                >
-                    <source src="/chika-dance-hard.mp4" type="video/mp4" />
-                </video>
-            </div>
-            <div className={`video-container video-right ${!isStatic ? 'block' : 'hidden'}`}>
-                <video 
-                    autoPlay 
-                    loop 
-                    muted={isStatic} /* This video is unmuted only when !isStatic */
-                    playsInline
-                    preload="auto"
-                    loading="eager"
-                    disablePictureInPicture
-                    disableRemotePlayback
-                >
-                    <source src="/chika-dance-hard.mp4" type="video/mp4" />
-                </video>
-            </div>
+            {!isStatic && (
+                <>
+                    <div className="video-container video-left">
+                        <video 
+                            autoPlay 
+                            loop 
+                            muted 
+                            playsInline
+                            preload="auto"
+                            loading="eager"
+                            disablePictureInPicture
+                            disableRemotePlayback
+                        >
+                            <source src="/chika-dance-hard.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                    <div className="video-container video-right">
+                        <video 
+                            autoPlay 
+                            loop 
+                            // this one is unmuted
+                            playsInline
+                            preload="auto"
+                            loading="eager"
+                            disablePictureInPicture
+                            disableRemotePlayback
+                        >
+                            <source src="/chika-dance-hard.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                </>
+            )}
             
             <div className="partytime-content flex flex-col items-center justify-center gap-8">
                 <div className="relative z-10 flex flex-col items-center gap-8">
