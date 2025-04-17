@@ -5,48 +5,78 @@ import "./partytime.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export default function Home() {
     const [isStatic, setIsStatic] = useState(true);
+    const videoLeftRef = useRef(null);
+    const videoRightRef = useRef(null);
+
+    useEffect(() => {
+        const videoLeft = videoLeftRef.current;
+        const videoRight = videoRightRef.current;
+
+        if (!videoLeft || !videoRight) return;
+        if (!isStatic) {
+            // Ensure videos are ready before playing
+            const playWhenReady = Promise.all([
+                new Promise(resolve => { videoLeft.oncanplaythrough = resolve; if (videoLeft.readyState >= 4) resolve(); }),
+                new Promise(resolve => { videoRight.oncanplaythrough = resolve; if (videoRight.readyState >= 4) resolve(); })
+            ]);
+
+            playWhenReady.then(() => {
+                videoLeft.play();
+                videoRight.muted = false; // music playback from just one video
+                videoRight.play();
+            });
+
+            // Cleanup function
+            return () => {
+                videoLeft.oncanplaythrough = null;
+                videoRight.oncanplaythrough = null;
+            };
+        } else {
+            videoLeft.pause();
+            videoRight.pause();
+            videoLeft.currentTime = 0;
+            videoRight.currentTime = 0;
+            videoRight.muted = true; // music playback from just one video
+        }
+    }, [isStatic]);
 
     return (
         <main className={`partytime-bg ${isStatic ? 'static' : ''}`}>
             <div className="grid-bg absolute inset-0 opacity-30 z-1"></div>
-            
-            {!isStatic && (
-                <>
-                    <div className="video-container video-left">
-                        <video 
-                            autoPlay 
-                            loop 
-                            muted 
-                            playsInline
-                            preload="auto"
-                            loading="eager"
-                            disablePictureInPicture
-                            disableRemotePlayback
-                        >
-                            <source src="/chika-dance-hard.mp4" type="video/mp4" />
-                        </video>
-                    </div>
-                    <div className="video-container video-right">
-                        <video 
-                            autoPlay 
-                            loop 
-                            // this one is unmuted
-                            playsInline
-                            preload="auto"
-                            loading="eager"
-                            disablePictureInPicture
-                            disableRemotePlayback
-                        >
-                            <source src="/chika-dance-hard.mp4" type="video/mp4" />
-                        </video>
-                    </div>
-                </>
-            )}
-            
+
+            <div className={`video-container video-left ${isStatic ? 'hidden' : ''}`}>
+                <video
+                    ref={videoLeftRef}
+                    loop
+                    muted // Always muted
+                    playsInline
+                    preload="auto"
+                    loading="eager"
+                    disablePictureInPicture
+                    disableRemotePlayback
+                >
+                    <source src="/chika-dance-hard.mp4" type="video/mp4" />
+                </video>
+            </div>
+            <div className={`video-container video-right ${isStatic ? 'hidden' : ''}`}>
+                <video
+                    ref={videoRightRef}
+                    loop
+                    muted // Initially muted for silent preload
+                    playsInline
+                    preload="auto"
+                    loading="eager"
+                    disablePictureInPicture
+                    disableRemotePlayback
+                >
+                    <source src="/chika-dance-hard.mp4" type="video/mp4" />
+                </video>
+            </div>
+
             <div className="partytime-content flex flex-col items-center justify-center gap-8">
                 <div className="relative z-10 flex flex-col items-center gap-8">
                 <div className="neon-border rounded-full p-1">

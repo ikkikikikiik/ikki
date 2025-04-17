@@ -338,3 +338,7 @@ footer.neon-text {
     position: relative;
     z-index: 2;
 }
+
+.hidden {
+    display: none;
+}
