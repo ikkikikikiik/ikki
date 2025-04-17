@@ -3,14 +3,26 @@ import Link from "next/link";
 import Footer from "@/components/layout/Footer";
 import "./partytime.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
+import { faXTwitter, faEthereum, faGithub } from "@fortawesome/free-brands-svg-icons";
 import { useState, useRef, useEffect } from "react";
 
 export default function Home() {
     const [isStatic, setIsStatic] = useState(true);
     const videoLeftRef = useRef(null);
     const videoRightRef = useRef(null);
+    const [copied, setCopied] = useState(false); // State for copy feedback
+
+    const ethAddress = "0x8F7E1Da883d7FA1C839C18E8BdfcE499D732ebF2";
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(ethAddress).then(() => {
+            setCopied(true);
+            setTimeout(() => setCopied(false), 1500); // Reset after 1.5 seconds
+        }).catch(err => {
+            console.error('Failed to copy text: ', err);
+            // Optionally handle the error, e.g., show an error message
+        });
+    };
 
     useEffect(() => {
         const videoLeft = videoLeftRef.current;
@@ -116,6 +128,15 @@ export default function Home() {
                             <FontAwesomeIcon icon={faXTwitter} size="lg" />
                         </Link>
                     </li>
+
+                    <li>
+                        <button
+                            className="partytime-link"
+                            onClick={handleCopy}
+                        >
+                            <FontAwesomeIcon icon={faEthereum} size="lg" />
+                        </button>
+                    </li>
                 </ul>
                 </div>
 
@@ -128,6 +149,11 @@ export default function Home() {
 
                 <Footer />
             </div>
+            {copied && (
+                <div className="copy-toast">
+                    ETH address copied!
+                </div>
+            )}
         </main>
     );
 }
