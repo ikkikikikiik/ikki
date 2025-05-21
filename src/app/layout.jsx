@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import Header from "@/components/layout/Header"; // Import the Header component
 
 config.autoAddCss = false;
 
@@ -35,6 +36,7 @@ export default function RootLayout({ children }) {
                     enableSystem
                     disableTransitionOnChange
                 >
+                    <Header /> {/* Add the Header component here */}
                     {children}
                 </ThemeProvider>
                 <Analytics />
