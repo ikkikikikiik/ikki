@@ -56,6 +56,19 @@ export default function Home() {
         }
     }, [isStatic]);
 
+    useEffect(() => {
+        // Preload video metadata and some data after initial mount
+        const videoLeft = videoLeftRef.current;
+        const videoRight = videoRightRef.current;
+
+        if (videoLeft) {
+            videoLeft.load();
+        }
+        if (videoRight) {
+            videoRight.load();
+        }
+    }, []); // Empty dependency array ensures this runs only once on mount
+
     return (
         <main className={`partytime-bg ${isStatic ? 'static' : ''}`}>
             <div className="grid-bg absolute inset-0 opacity-30 z-1"></div>
@@ -66,7 +79,7 @@ export default function Home() {
                     loop
                     muted // Always muted
                     playsInline
-                    preload="auto"
+                    preload="metadata"
                     loading="eager"
                     disablePictureInPicture
                     disableRemotePlayback
@@ -80,7 +93,7 @@ export default function Home() {
                     loop
                     muted // Initially muted for silent preload
                     playsInline
-                    preload="auto"
+                    preload="metadata"
                     loading="eager"
                     disablePictureInPicture
                     disableRemotePlayback
