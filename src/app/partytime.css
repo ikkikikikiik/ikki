@@ -143,7 +143,9 @@ footer.neon-text {
 
 .partytime-bg:not(.static) .video-container {
     display: block;
-    animation: glitch 2s infinite;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .partytime-bg.static .video-container {
