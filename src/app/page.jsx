@@ -29,29 +29,30 @@ export default function Home() {
         const videoRight = videoRightRef.current;
 
         if (!videoLeft || !videoRight) return;
+
+        const waitForReady = (video) => new Promise((resolve) => {
+            if (video.readyState >= 3) {
+                resolve();
+                return;
+            }
+            const handleCanPlay = () => resolve();
+            video.addEventListener("canplay", handleCanPlay, { once: true });
+        });
+
         if (!isStatic) {
-            // Ensure videos are ready before playing
-            const playWhenReady = Promise.all([
-                new Promise(resolve => { videoLeft.oncanplaythrough = resolve; if (videoLeft.readyState >= 4) resolve(); }),
-                new Promise(resolve => { videoRight.oncanplaythrough = resolve; if (videoRight.readyState >= 4) resolve(); })
-            ]);
-
-            playWhenReady.then(() => {
-                videoLeft.play();
-                videoRight.muted = false; // music playback from just one video
-                videoRight.play();
-            });
-
-            // Cleanup function
-            return () => {
-                videoLeft.oncanplaythrough = null;
-                videoRight.oncanplaythrough = null;
-            };
+            Promise.all([waitForReady(videoLeft), waitForReady(videoRight)])
+                .then(() => {
+                    const leftPlay = videoLeft.play();
+                    videoRight.muted = false; // music playback from just one video
+                    const rightPlay = videoRight.play();
+                    return Promise.all([leftPlay, rightPlay]);
+                })
+                .catch(() => {
+                    // Autoplay can fail; user can retry by toggling.
+                });
         } else {
             videoLeft.pause();
             videoRight.pause();
-            videoLeft.currentTime = 0;
-            videoRight.currentTime = 0;
             videoRight.muted = true; // music playback from just one video
         }
     }, [isStatic]);
